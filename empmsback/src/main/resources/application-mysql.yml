@@ -1,0 +1,20 @@
+# MySQL datasource configuration
+# The database must be created and the user must have granted privileges on the database
+# before the very first run of this profile.
+# DB_ADMIN_NAME - environment variable containing username
+# DB_ADMIN_PASSWORD - environment variable containing password
+spring:
+  datasource:
+    username: ${DB_ADMIN_NAME}
+    password: ${DB_ADMIN_PASSWORD}
+    url: jdbc:mysql://localhost:3306/empms_app?userUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect
+  h2:
+    console:
+      enabled: false
