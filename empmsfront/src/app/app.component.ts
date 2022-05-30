@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
 
   employees: Array<Employee>;
   editEmployee: Employee;
+  deleteEmployee: Employee;
 
   constructor(private employeeService: EmployeeService) {
   }
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit {
       this.editEmployee = employee;
       button = document.getElementById('editEmployeeHiddenButton');
     } else if (mode === 'delete') {
+      this.deleteEmployee = employee;
       button = document.getElementById('deleteEmployeeHiddenButton');
     }
     button.click();
@@ -79,5 +81,17 @@ export class AppComponent implements OnInit {
 
   private static closeEditEmployeeForm() {
     document.getElementById('edit-employee-form').click();
+  }
+
+  onDeleteEmployee(id: number): void {
+    this.employeeService.deleteEmployee(id).subscribe(
+      (response: void) => {
+        console.log('employee deleted by id', id);
+        this.getEmployees();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
   }
 }
