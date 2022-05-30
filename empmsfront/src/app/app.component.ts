@@ -94,4 +94,23 @@ export class AppComponent implements OnInit {
       }
     )
   }
+
+  searchEmployees(key: string): void {
+    const result: Array<Employee> = new Array<Employee>();
+    const keyLower = key.trim().toLowerCase();
+    if (keyLower) {
+      for (const emp of this.employees) {
+        if (emp.name.toLowerCase().indexOf(keyLower) !== -1
+          || emp.email.toLowerCase().indexOf(keyLower) !== -1
+          || emp.jobTitle.toLowerCase().indexOf(keyLower) !== -1
+          || emp.phone.toLowerCase().indexOf(keyLower) !== -1) {
+          result.push(emp);
+        }
+      }
+      this.employees = result;
+    }
+    if (result.length == 0 || !keyLower) {
+      this.getEmployees();
+    }
+  }
 }
