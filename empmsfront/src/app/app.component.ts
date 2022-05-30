@@ -29,4 +29,16 @@ export class AppComponent implements OnInit {
       }
     )
   }
+
+  onOpenModal(employee: Employee, mode: string): void {
+    let button: HTMLElement;
+    if (mode === 'add') {
+      button = document.getElementById('addEmployeeHiddenButton');
+    } else if (mode === 'edit') {
+      button = document.getElementById('editEmployeeHiddenButton');
+    } else if (mode === 'delete') {
+      button = document.getElementById('deleteEmployeeHiddenButton');
+    }
+    button.click();
+  }
 }
