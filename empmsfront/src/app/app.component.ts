@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Employee} from "./Employee";
 import {EmployeeService} from "./employee.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -40,5 +41,22 @@ export class AppComponent implements OnInit {
       button = document.getElementById('deleteEmployeeHiddenButton');
     }
     button.click();
+  }
+
+  onAddEmployee(addForm: NgForm): void {
+    AppComponent.closeAddEmployeeForm();
+    this.employeeService.addEmployee(addForm.value).subscribe(
+      (response: Employee) => {
+        console.log('onAddEmployee response:', response);
+        this.getEmployees();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
+  }
+
+  private static closeAddEmployeeForm() {
+    document.getElementById('add-employee-form').click();
   }
 }
