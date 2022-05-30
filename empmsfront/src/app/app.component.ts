@@ -12,6 +12,7 @@ import {NgForm} from "@angular/forms";
 export class AppComponent implements OnInit {
 
   employees: Array<Employee>;
+  editEmployee: Employee;
 
   constructor(private employeeService: EmployeeService) {
   }
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
     if (mode === 'add') {
       button = document.getElementById('addEmployeeHiddenButton');
     } else if (mode === 'edit') {
+      this.editEmployee = employee;
       button = document.getElementById('editEmployeeHiddenButton');
     } else if (mode === 'delete') {
       button = document.getElementById('deleteEmployeeHiddenButton');
@@ -49,6 +51,25 @@ export class AppComponent implements OnInit {
       (response: Employee) => {
         console.log('onAddEmployee response:', response);
         this.getEmployees();
+        addForm.reset();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+        addForm.reset();
+      }
+    )
+  }
+
+  private static closeAddEmployeeForm() {
+    document.getElementById('add-employee-form').click();
+  }
+
+  onUpdateEmployee(employee: Employee): void {
+    AppComponent.closeEditEmployeeForm();
+    this.employeeService.updateEmployee(employee).subscribe(
+      (response: Employee) => {
+        console.log('onUpdateEmployee response:', response);
+        this.getEmployees();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -56,7 +77,7 @@ export class AppComponent implements OnInit {
     )
   }
 
-  private static closeAddEmployeeForm() {
-    document.getElementById('add-employee-form').click();
+  private static closeEditEmployeeForm() {
+    document.getElementById('edit-employee-form').click();
   }
 }
